@@ -1,8 +1,9 @@
 from setuptools import setup
+import glob
 
 setup(
     name='starry_maps',
-    version='0.0.2',
+    version='0.0.3',
     author='Rodrigo Luger',
     author_email='rodluger@gmail.com',
     url='https://github.com/rodluger/starry_maps',
@@ -15,4 +16,5 @@ setup(
                       'healpy',
                       'Pillow'],
     zip_safe=False,
+    data_files=[('starry_maps', glob.glob('starry_maps/*.jpg'))]
 )
