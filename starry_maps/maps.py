@@ -40,7 +40,7 @@ def healpix2map(healpix_map, lmax=10):
                 ylm[i] = np.sqrt(2) * (-1) ** m * alm[j].real
             i += 1
 
-    return ylm / ylm[0]
+    return ylm
 
 
 def image2map(image, lmax=10):
@@ -55,6 +55,8 @@ def image2map(image, lmax=10):
     # Get the image array
     grayscale_pil_image = Image.open(image).convert("L")
     image_array = pil_to_array(grayscale_pil_image)
+    image_array = np.array(image_array, dtype=float)
+    image_array /= np.max(image_array)
 
     # Figure out a reasonable number of sides
     # TODO: Not optimized!
