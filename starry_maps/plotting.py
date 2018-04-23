@@ -1,6 +1,7 @@
 """Plotting utilities for starry."""
 import matplotlib.pyplot as pl
 import matplotlib.animation as animation
+import numpy as np
 
 
 __all__ = ["show", "animate"]
@@ -19,7 +20,8 @@ def animate(I, u=[0, 1, 0], res=300, cmap="plasma"):
     """Animate the map as it rotates about the axis `u`."""
     fig, ax = pl.subplots(1, figsize=(3, 3))
     img = ax.imshow(I[0], origin="lower", interpolation="none", cmap=cmap,
-                    extent=(-1, 1, -1, 1), animated=True)
+                    extent=(-1, 1, -1, 1), animated=True,
+                    vmin=np.nanmin(I), vmax=np.nanmax(I))
     ax.axis('off')
 
     def updatefig(i):

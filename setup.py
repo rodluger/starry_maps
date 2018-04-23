@@ -3,7 +3,7 @@ import glob
 
 setup(
     name='starry_maps',
-    version='0.0.6',
+    version='0.0.7',
     author='Rodrigo Luger',
     author_email='rodluger@gmail.com',
     url='https://github.com/rodluger/starry_maps',

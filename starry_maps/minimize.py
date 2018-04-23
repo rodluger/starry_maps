@@ -1,5 +1,6 @@
 """Find the minimum of a polynomial surface map."""
 import numpy as np
+np.seterr(invalid='ignore', over='ignore')
 from scipy.optimize import minimize as scipymin
 
 
@@ -90,4 +91,9 @@ def minimize(p):
     minval, minpos = minimize_brute(p, npts)
     foo = scipymin(evaluate, minpos, args=(p,), method='SLSQP', jac=True,
                    constraints=dict(type='eq', fun=constraint, jac=jacobian))
-    return foo.fun
+    if not np.isnan(foo.fun):
+        return foo.fun
+    else:
+        # Overflow can occur in the optimizer. Let's just use the brute force
+        # minimum in this case.
+        return minval
