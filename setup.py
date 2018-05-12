@@ -15,8 +15,7 @@ setup(
                       'matplotlib',
                       'scipy',
                       'healpy',
-                      'Pillow',
-                      'pyshtools'],
+                      'Pillow'],
     zip_safe=False,
     data_files=[('starry_maps', glob.glob('starry_maps/*.jpg'))],
     include_package_data=True
