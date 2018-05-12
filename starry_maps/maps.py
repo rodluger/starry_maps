@@ -3,6 +3,7 @@ import numpy as np
 import healpy as hp
 from PIL import Image
 from matplotlib.image import pil_to_array
+from scipy.special import ive as BesselI
 import os
 
 
@@ -58,6 +59,12 @@ def image2map(image, lmax=10):
     image_array = np.array(image_array, dtype=float)
     image_array /= np.max(image_array)
 
+    # Convert it to a map
+    return array2map(image_array, lmax=lmax)
+
+
+def array2map(image_array, lmax=10):
+    """Return a map vector corresponding to a lat-lon map image array."""
     # Figure out a reasonable number of sides
     # TODO: Not optimized!
     npix = image_array.shape[0] * image_array.shape[1]
@@ -74,3 +81,15 @@ def image2map(image, lmax=10):
 
     # Now convert it to a spherical harmonic map
     return healpix2map(healpix_map, lmax=lmax)
+
+
+def gaussian(sigma=0.1, lmax=10, res=500):
+    """Return a spherical harmonic expansion of a Gaussian."""
+    lon = np.linspace(-np.pi, np.pi, res * 2)
+    lat = np.linspace(-np.pi / 2, np.pi / 2, res)
+    lon, lat = np.meshgrid(lon, lat)
+    z = np.cos(lat) * np.cos(lon)
+    w = sigma ** - 2
+    norm = np.pi * BesselI(0, w)
+    g = norm * np.exp((z - 1) / sigma ** 2)
+    return array2map(g, lmax=lmax)

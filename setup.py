@@ -3,7 +3,7 @@ import glob
 
 setup(
     name='starry_maps',
-    version='0.0.7',
+    version='0.0.8',
     author='Rodrigo Luger',
     author_email='rodluger@gmail.com',
     url='https://github.com/rodluger/starry_maps',
@@ -15,7 +15,8 @@ setup(
                       'matplotlib',
                       'scipy',
                       'healpy',
-                      'Pillow'],
+                      'Pillow',
+                      'pyshtools'],
     zip_safe=False,
     data_files=[('starry_maps', glob.glob('starry_maps/*.jpg'))],
     include_package_data=True

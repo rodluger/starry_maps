@@ -1,7 +1,7 @@
 """Find the minimum of a polynomial surface map."""
+from scipy.optimize import minimize as scipymin
 import numpy as np
 np.seterr(invalid='ignore', over='ignore')
-from scipy.optimize import minimize as scipymin
 
 
 __all__ = ["minimize"]
@@ -87,13 +87,16 @@ def minimize(p):
     # http://adsabs.harvard.edu/abs/1992SvA....36..220K
     # so let's have at least 2x as many points in each
     # dimension for good sampling
-    npts = 4 * (lmax ** 2 - lmax + 2)
+    npts = 8 * (lmax ** 2 - lmax + 2)
     minval, minpos = minimize_brute(p, npts)
     foo = scipymin(evaluate, minpos, args=(p,), method='SLSQP', jac=True,
                    constraints=dict(type='eq', fun=constraint, jac=jacobian))
+
     if not np.isnan(foo.fun):
         return foo.fun
     else:
-        # Overflow can occur in the optimizer. Let's just use the brute force
-        # minimum in this case.
+        # Overflow can sometimes occur in the optimizer. We'll use
+        # the brute-force solution, but raise a warning.
+        raise RuntimeWarning("Optimizer failed to converge. "
+                             "Global minimum may not have been found.")
         return minval
