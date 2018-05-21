@@ -10,13 +10,16 @@ import os
 __all__ = ["load_map", "image2map", "healpix2map"]
 
 
-def load_map(image, lmax=10):
-    """Allow the user to specify an image or healpix map."""
+def load_map(image, lmax=10, healpix=False):
+    """Allow the user to specify an image, array, or healpix map."""
     if type(image) is str:
         y = image2map(image, lmax=lmax)
-    # Or is this a healpix array?
-    elif type(image) is np.ndarray:
-        y = healpix2map(image, lmax=lmax)
+    # Or is this an array?
+    elif (type(image) is np.ndarray):
+        if healpix:
+            y = healpix2map(image, lmax=lmax)
+        else:
+            y = array2map(image, lmax=lmax)
     else:
         raise ValueError("Invalid `image` value.")
     return y
