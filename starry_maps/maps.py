@@ -1,6 +1,9 @@
 """Map fitting utilities for starry."""
 import numpy as np
-import healpy as hp
+try:
+    import healpy as hp
+except ImportError:
+    hp = None
 from PIL import Image
 from matplotlib.image import pil_to_array
 from scipy.special import ive as BesselI
@@ -27,6 +30,8 @@ def load_map(image, lmax=10, healpix=False):
 
 def healpix2map(healpix_map, lmax=10):
     """Return a map vector corresponding to a healpix array."""
+    if hp is None:
+        raise ImportError("Please install the `healpy` package.")
     # Get the complex spherical harmonic coefficients
     alm = hp.sphtfunc.map2alm(healpix_map, lmax=lmax)
 
@@ -68,6 +73,8 @@ def image2map(image, lmax=10):
 
 def array2map(image_array, lmax=10):
     """Return a map vector corresponding to a lat-lon map image array."""
+    if hp is None:
+        raise ImportError("Please install the `healpy` package.")
     # Figure out a reasonable number of sides
     # TODO: Not optimized!
     npix = image_array.shape[0] * image_array.shape[1]
