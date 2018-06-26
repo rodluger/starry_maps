@@ -8,7 +8,7 @@ if platform.system() != "Windows":
 
 setup(
     name='starry_maps',
-    version='0.0.11',
+    version='0.0.12',
     author='Rodrigo Luger',
     author_email='rodluger@gmail.com',
     url='https://github.com/rodluger/starry_maps',
